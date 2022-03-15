@@ -1,4 +1,4 @@
-import app
+import app_sqlite
 
 if __name__ == "__main__":
-    app.run()
+    app_sqlite.run()
