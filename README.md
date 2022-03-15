@@ -12,12 +12,16 @@ See example data:
 
 
     
-  ## Heroku
+## Heroku
 
-  To start the app locally:
+To start the app locally in dev mode:
 
-    export FLASK_APP=app
-    FLASK_ENV=development
-    flask run
+  export FLASK_APP=app
+  FLASK_ENV=development
+  flask run
+
+In prod mode:
+
+  gunicorn wsgi:app
 
 To deploy it, push it to github.
