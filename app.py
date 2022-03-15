@@ -81,9 +81,77 @@ def api_list_edge(networkid):
     data = query_db(sql, params)
     return jsonify(data)
 
-@app.route('/api/get_network_partial/<int:networkid>/<int:nodeid>')
-def api_get_network_partial(networkid):
-    return
+@app.route('/api/get_network_partial/<int:networkid>/<int:busnum>')
+def api_get_network_partial(networkid, busnum):
+    """Get network in the neighborhood of the specified node
+    """
+    params = {'networkid': networkid, 'busnum': busnum}
+    sql = """\
+        SELECT 
+            edgeid,
+            edgename,
+            frombusnum source,
+            tobusnum target,
+            ckt
+        FROM edge 
+        WHERE networkid=%(networkid)s
+        AND (frombusnum='%(busnum)s'
+            OR tobusnum='%(busnum)s')
+        """
+    edges = query_db(sql, params)
+
+    sql = """\
+        SELECT 
+            nodeid,
+            busnum,
+            nodename,
+            kv,
+            CONCAT(busnum, ' | ', nodename) as label
+        FROM node
+        INNER JOIN edge 
+            ON (edge.frombusnum = node.busnum
+                AND edge.networkid = node.networkid)
+        WHERE edge.frombusnum='%(busnum)s' OR edge.tobusnum='%(busnum)s'
+        UNION
+        SELECT 
+            nodeid,
+            busnum,
+            nodename,
+            kv,
+            CONCAT(busnum, ' | ', nodename) as label
+        FROM node
+        INNER JOIN edge 
+            ON (edge.tobusnum = node.busnum
+                AND edge.networkid = node.networkid)
+        WHERE edge.frombusnum='%(busnum)s' OR edge.tobusnum='%(busnum)s'
+        """
+    nodes = query_db(sql, params)
+
+    eles = []
+    for node in nodes:
+        d = {'group': 'nodes', 'data': 
+                {
+                'id': node['busnum'], 
+                'nodeid': node['nodeid'], 
+                'busnum': node['busnum'], 
+                'nodename': node['nodename'], 
+                'label': node['label'], 
+                'kv': node['kv']}
+            }
+        eles.append(d)
+    
+    for edge in edges:
+        d = {'group': 'edges', 'data': {
+                'edgeid': edge['edgeid'],
+                'edgename': edge['edgename'],
+                'source': edge['source'],
+                'target': edge['target'],
+                'ckt': edge['ckt']
+                }
+            }
+        eles.append(d)
+    print(eles)
+    return jsonify(eles)
 
 @app.route('/api/get_network_all/<int:networkid>')
 def api_get_network_all(networkid):

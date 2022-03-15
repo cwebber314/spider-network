@@ -12,7 +12,11 @@ vm = new Vue({
     watch: {
         network: function (networkid) {
             this.getNodes(networkid)
-            this.getNetworkAll(networkid)
+            // this.getNetworkAll(networkid)
+        },
+        node: function (node) {
+            console.log("Node: " + node)
+            this.getNetworkPartial(this.network, node)
         }
     }, // end watch
     mounted: function () {
@@ -23,6 +27,7 @@ vm = new Vue({
             axios.get('/api/list_networks').then(
                 response => {
                     this.networks = response['data']
+                    cy.elements().remove()
                 }
             )
         }, // end getNetworks
@@ -35,13 +40,39 @@ vm = new Vue({
                 }
             )
         }, // end getNodes
-        getNetwork (networkid, nodeid) {
+        getNetworkPartial (networkid, nodeid) {
             var eles = {}
             // get network in the neighborhood of the specified node 
             axios.get('/api/get_network_partial/' + networkid + '/' + nodeid).then(
                 response => {
-                    eles = response['data']
-                }
+                    var edges = []
+                    var nodes = []
+                    var all_eles = response['data']
+                    var eles = []
+                    all_eles.forEach(function (ele) {
+                        if (ele['group'] == 'nodes') {
+                            var e = cy.nodes('[busnum =' + ele.data['busnum'] + ']')
+                            if (e.length == 0) {
+                                eles.push(ele)
+                            }
+                        }
+                        else if (ele['group'] == 'edges') {
+                            var e = cy.edges('[edgeid =' + ele.data['edgeid'] + ']')
+                            if (e.length == 0) {
+                                eles.push(ele)    
+                            }
+                        }
+                    })
+
+                    cy.elements().lock()
+                    console.log("Add elements")
+                    console.log(eles)
+                    // For the partial network we only add elements to the diagram
+                    // if they don't already exist. 
+                    
+                    cy.add(eles)
+                    var el = cy.elements().layout(layout_options).run()    
+                    }
             )
         },
         getNetworkAll (networkid) {
@@ -51,7 +82,6 @@ vm = new Vue({
                 var eles = response['data']
                 console.log("Add elements")
                 console.log(eles)
-                cy.elements().remove()
                 cy.add(eles)
                 cy.elements().show()
                 cy.layout(layout_options).run()    
@@ -63,8 +93,8 @@ vm = new Vue({
 
 var layout_options = {
     name: 'cose',
-    // nodeSpacing: 80,
-    // edgeLengthVal: 45
+    nodeRepulsion: 1e5,
+    stop: finishLayout
 }
 
 var style = [
@@ -80,7 +110,25 @@ var style = [
             'curve-style': 'bezier',
             'label': 'data(ckt)',
         }
-    }
+    },
+    {
+        selector: 'node[kv>100][kv<300]',
+        style: {
+            "background-color": "red"
+        }
+    },
+    {
+    selector: 'node[kv>50][kv<100]',
+        style: {
+            "background-color": "green"
+        }
+    },
+    {
+    selector: 'node[kv<50]',
+        style: {
+            "background-color": "pink"
+        }
+    },
 ]
 
 var cy = cytoscape({
@@ -89,3 +137,23 @@ var cy = cytoscape({
     elements: {},
     style: style
 })
+
+cy.on("cxttap", "node", function (e) {
+    console.log("right-click handler")
+    if (e.originalEvent.ctrlKey) {
+        // don't actually remove it from the diagram, just hide it.
+        // if we grow out again, the node keeps it's old location
+        console.log("hide node")
+        e.target.hide()
+    } else {
+        console.log("grow node" + e.target.data()['id'])
+        vm.getNetworkPartial(vm.network, e.target.data()['id'])
+        cy.elements().unselect()
+        e.target.closedNeighborhood().show()
+        // cy.$(':visible').layout(layout_options).run()
+    }
+})
+
+function finishLayout() {
+    cy.elements().unlock()
+}

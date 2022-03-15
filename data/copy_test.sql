@@ -1,3 +1,4 @@
+-- This is a little fragile and doesn't play well with heroku
 COPY network(networkid,networkname)
 FROM '/home/cwebber/spider-network/data/network.csv'
 DELIMITER ','

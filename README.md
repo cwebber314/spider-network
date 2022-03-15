@@ -1,5 +1,6 @@
 # spider-network
-Example of using cytoscape to draw an electrical network.  See it in [action](https://spider-network.herokuapp.com/)
+
+Example of using cytoscape to draw an electrical network.  See it in action [here](https://spider-network.herokuapp.com/)
 
 ## Local Postgres setup
 
@@ -27,7 +28,7 @@ Setup a low privilidge user for the web application:
 ```
 CREATE USER flask;
 ALTER USER flask PASSWORD 'nomoresecrets';
-GRANT SELECT ON ALL TABLES IN SCHEMA public TO flask;
+GRANT SELECT, UPDATE, INSERT, DELETE ON ALL TABLES IN SCHEMA public TO flask;
 ```
 
 Granting permissions on PROCs can only be done one at a time:
