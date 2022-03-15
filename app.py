@@ -13,3 +13,10 @@ app.json_encoder = JSONEncoder
 @app.route('/network')
 def network():
     return render_template('network.html')
+
+@app.route('/hello')
+def hello_world():
+    return "<p>Hello, World!</p>"
+    
+if __name__ == "__main__":
+    app.run(host='0.0.0.0')
