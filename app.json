@@ -1,0 +1,20 @@
+{
+    "name": "Network diagram viewer",
+    "description": "Simple application to view an electrical network with cytoscape.js",
+    "image": "heroku/python",
+    "repository": "https://github.com/cwebber314/spider-network",
+    "keywords": ["python", "flask", "vue" ],
+    "addons": [ "heroku-postgresql" ],
+    "env": {
+      "SECRET_KEY": {
+        "description": "The secret key for the Django application.",
+        "generator": "secret"
+      }
+    },
+    "environments": {
+      "test": {
+        "scripts": {
+        }
+      }
+    }
+  }
