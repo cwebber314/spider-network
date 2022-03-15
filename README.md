@@ -58,9 +58,13 @@ To open a psql quick connection to the heroku database:
 TODO
 ```
 
-## Data Load local
+## Data Load local (postgres)
 
 To load the data on the local instance use the `copy_test.sql`.
+
+## sqlite 
+
+We can also use a sqlite database for this example.  
 
 ## Heroku
 

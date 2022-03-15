@@ -1,0 +1,8 @@
+nodeid,networkid,nodename,kv,busnum
+5,1,Sol,138.0,1000
+6,1,Luna,138.0,1001
+7,1,Mercury,138.0,1002
+8,1,Mars,138.0,1003
+9,1,Jupiter,138.0,1004
+10,1,Ceres,138.0,1005
+11,1,Ceres Gen,18.0,1006

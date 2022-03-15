@@ -16,9 +16,7 @@ app = Flask(__name__)
 app.json_encoder = JSONEncoder
 
 def get_db():
-    # result = urlparse(DATABASE_URL)
     if 'db' not in g:
-        # current_app.config['DATABASE'],
         g.db = psycopg2.connect(DATABASE_URL)
     return g.db
 

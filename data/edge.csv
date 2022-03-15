@@ -1,0 +1,9 @@
+edgeid,networkid,edgename,frombusnum,tobusnum,ckt,edgetype
+1,1,Sol - Luna,1000,1001,C1,branch
+2,1,Sol - Luna,1000,1001,C2,branch
+3,1,Luna - Mars,1001,1002,C1,branch
+4,1,Sol - Mars,1001,1002,C1,branch
+5,1,Mercury - Mars,1002,1003,1,branch
+8,1,Ceres GSU,1005,1006,X1,xfmr
+6,1,Mars - Ceres,1003,1005,1,branch
+7,1,Ceres - Jupiter,1005,1004,1,branch
