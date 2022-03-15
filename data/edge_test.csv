@@ -1,4 +1,4 @@
-networkid,edgename,frombusnum,tobusnum,ckt
+networkid,edgename,frombusnum,tobusnum,ckt,
 1,Sol - Luna,1000,1001,C1
 1,Sol - Luna,1000,1001,C2
 1,Luna - Mars,1001,1002,C1

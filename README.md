@@ -2,6 +2,18 @@
 
 Example of using cytoscape to draw an electrical network.  See it in action [here](https://spider-network.herokuapp.com/)
 
+By default this app uses a sqlite database.
+
+To start the sqlite version of the app:
+```
+python app_sqlite.py
+```
+
+To start using the postgres database use:
+```
+python app_postgres.py
+```
+
 ## Local Postgres setup
 
 For the local postgres:
@@ -61,10 +73,6 @@ TODO
 ## Data Load local (postgres)
 
 To load the data on the local instance use the `copy_test.sql`.
-
-## sqlite 
-
-We can also use a sqlite database for this example.  
 
 ## Heroku
 

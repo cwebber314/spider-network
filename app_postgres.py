@@ -7,8 +7,6 @@ from flask import jsonify
 from simplejson import JSONDecoder
 import psycopg2
 import psycopg2.extras
-import pdb
-# from urllib.parse import urlparse
 
 DATABASE_URL = os.environ.get('DATABASE_URL')
 
@@ -148,7 +146,7 @@ def api_get_network_partial(networkid, busnum):
                 }
             }
         eles.append(d)
-    print(eles)
+    # print(eles)
     return jsonify(eles)
 
 @app.route('/api/get_network_all/<int:networkid>')
@@ -194,7 +192,7 @@ def api_get_network_all(networkid):
                 }
             }
         eles.append(d)
-    print(eles)
+    # print(eles)
     return jsonify(eles)
 
 if __name__ == "__main__":
