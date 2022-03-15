@@ -2,7 +2,7 @@
 
 Example of using cytoscape to draw an electrical network.  See it in action [here](https://spider-network.herokuapp.com/)
 
-By default this app uses a sqlite database.
+This app is setup to use both sqlite and postgres.
 
 To start the sqlite version of the app:
 ```
