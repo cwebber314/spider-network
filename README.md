@@ -49,6 +49,7 @@ exprot DATABASE_URL=$(heroku config:get DATABASE_URL -a spider-network)
 
 To push the local database use:
 ```
+heroku pg:reset --confirm spider-network
 heroku pg:push spider DATABASE_URL --app spider-network
 ```
 
