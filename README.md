@@ -77,14 +77,16 @@ To load the data on the local instance use the `copy_test.sql`.
 ## Heroku
 
 To start the app locally in dev mode:
+```
+export FLASK_APP=app
+FLASK_ENV=development
+flask run
 
-  export FLASK_APP=app
-  FLASK_ENV=development
-  flask run
-
+```
 In prod mode:
-
-  gunicorn wsgi:app
+```
+gunicorn wsgi:app
+```
 
 To deploy it, push it to github.
 
