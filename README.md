@@ -81,8 +81,8 @@ To start the app locally in dev mode:
 export FLASK_APP=app
 FLASK_ENV=development
 flask run
-
 ```
+
 In prod mode:
 ```
 gunicorn wsgi:app
